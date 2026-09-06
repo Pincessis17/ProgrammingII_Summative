@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.budgetms.ui.controller.BudgetBrowserController"
+      spacing="16">
+    <Label styleClass="screen-title" text="Budget Browser" />
+    <Label styleClass="screen-subtitle"
+           text="Department hierarchy with recursively-computed cost, headcount and variance — each department's total rolls up every descendant sub-department and its staff." />
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS" prefWidth="500">
+            <Label text="Organisation Tree" style="-fx-font-weight: bold;" />
+            <TreeView fx:id="orgTreeView" VBox.vgrow="ALWAYS" showRoot="false" />
+        </VBox>
+
+        <VBox styleClass="card" spacing="10" prefWidth="320" minWidth="300">
+            <Label text="Details" style="-fx-font-weight: bold;" />
+            <Label fx:id="selectedNameLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;" wrapText="true" />
+            <Label fx:id="selectedTypeLabel" styleClass="screen-subtitle" />
+
+            <VBox spacing="6" style="-fx-padding: 12 0 0 0;">
+                <Label fx:id="detailLine1" wrapText="true" />
+                <Label fx:id="detailLine2" wrapText="true" />
+                <Label fx:id="detailLine3" wrapText="true" />
+                <Label fx:id="detailLine4" wrapText="true" />
+                <Label fx:id="varianceLabel" wrapText="true" style="-fx-font-weight: bold;" />
+            </VBox>
+
+            <Label text="Select a node in the tree to see its recursive totals."
+                   styleClass="screen-subtitle" wrapText="true" style="-fx-padding: 16 0 0 0;" />
+        </VBox>
+    </HBox>
+</VBox>
