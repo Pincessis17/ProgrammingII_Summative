@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.budgetms.ui.controller.BudgetController"
+      spacing="16">
+    <Label styleClass="screen-title" text="Budgets" />
+    <Label styleClass="screen-subtitle"
+           text="One active allocation per department, per period. Full CRUD — deleting a budget removes only that period's allocation, never the department, its employees, or historical cost." />
+
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="All Budget Allocations" style="-fx-font-weight: bold;" />
+            <TableView fx:id="budgetTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="departmentColumn" text="Department" prefWidth="170" />
+                    <TableColumn fx:id="periodColumn" text="Period" prefWidth="90" />
+                    <TableColumn fx:id="allocatedColumn" text="Allocated" prefWidth="110" />
+                    <TableColumn fx:id="actualCostColumn" text="Actual Cost" prefWidth="110" />
+                    <TableColumn fx:id="varianceColumn" text="Variance" prefWidth="110" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox styleClass="card" spacing="12" prefWidth="300" minWidth="280">
+            <Label fx:id="formTitleLabel" text="Add Budget" style="-fx-font-weight: bold;" />
+            <GridPane styleClass="form-grid" vgap="10" hgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="80" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+                <Label text="Department" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <ComboBox fx:id="departmentComboBox" maxWidth="Infinity"
+                          GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                <Label text="Period" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                <TextField fx:id="periodField" promptText="e.g. 2026-Q4"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <Label text="Allocated" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                <TextField fx:id="allocatedField" promptText="e.g. 8000"
+                           GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            </GridPane>
+
+            <Label fx:id="validationLabel" styleClass="variance-negative" wrapText="true" />
+
+            <HBox spacing="8">
+                <Button fx:id="addButton" styleClass="primary-button" text="Add" onAction="#handleAdd" />
+                <Button fx:id="updateButton" styleClass="secondary-button" text="Update" onAction="#handleUpdate" disable="true" />
+                <Button fx:id="deleteButton" styleClass="danger-button" text="Delete" onAction="#handleDelete" disable="true" />
+            </HBox>
+            <Button styleClass="secondary-button" text="Clear Form" onAction="#handleClear" maxWidth="Infinity" />
+        </VBox>
+    </HBox>
+</VBox>
