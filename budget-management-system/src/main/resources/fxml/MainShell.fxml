@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.budgetms.ui.controller.MainShellController">
+    <left>
+        <VBox styleClass="sidebar" BorderPane.alignment="CENTER">
+            <Label styleClass="sidebar-title" text="Departmental Budget Management System" />
+            <ToggleButton fx:id="departmentsNavButton" styleClass="nav-button" text="Departments"
+                          onAction="#showDepartments" maxWidth="Infinity" />
+            <ToggleButton fx:id="employeesNavButton" styleClass="nav-button" text="Employees"
+                          onAction="#showEmployees" maxWidth="Infinity" />
+            <ToggleButton fx:id="budgetsNavButton" styleClass="nav-button" text="Budgets"
+                          onAction="#showBudgets" maxWidth="Infinity" />
+            <ToggleButton fx:id="budgetBrowserNavButton" styleClass="nav-button" text="Budget Browser"
+                          onAction="#showBudgetBrowser" maxWidth="Infinity" />
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentArea" styleClass="content-area" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="0" right="0" bottom="0" left="0" />
+            </padding>
+        </StackPane>
+    </center>
+</BorderPane>
