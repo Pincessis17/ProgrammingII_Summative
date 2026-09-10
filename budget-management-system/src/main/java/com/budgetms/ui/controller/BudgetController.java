@@ -73,12 +73,12 @@ public class BudgetController {
                 new SimpleStringProperty(String.format("$%,.2f", data.getValue().getAllocatedAmount())));
         actualCostColumn.setCellValueFactory(data -> {
             Department d = store.findDepartmentById(data.getValue().getDepartmentId());
-            return new SimpleStringProperty(d == null ? "—" : String.format("$%,.2f", d.calculateCost()));
+            return new SimpleStringProperty(d == null ? "—" : String.format("$%,.2f", d.calculateBudget()));
         });
         varianceColumn.setCellValueFactory(data -> {
             Department d = store.findDepartmentById(data.getValue().getDepartmentId());
             double variance = (d == null) ? 0
-                    : data.getValue().getAllocatedAmount() - d.calculateCost();
+                    : data.getValue().getAllocatedAmount() - d.calculateBudget();
             return new SimpleStringProperty(String.format("%+,.2f", variance));
         });
         varianceColumn.setCellFactory(col -> new TableCell<>() {

@@ -8,7 +8,7 @@ public interface OrgUnit {
     String getName();
 
     // Calculates the total cost associated with the organisational unit.
-    double calculateCost();
+    double calculateBudget();
 
     // Returns the number of active employees represented by the unit.
     int getHeadcount();
