@@ -132,18 +132,18 @@ public class Department implements OrgUnit {
     // Calculates the total cost of this department.
     // This includes the cost of employees directly in this department as well as the costs of all child departments.
     @Override
-    public double calculateCost() {
+    public double calculateBudget() {
         double total = 0.0;
 
         // Add the cost of each employee in this department.
         for (Employee e : employees) {
-            total += e.calculateCost();
+            total += e.calculateBudget();
         }
 
         // Add the cost of each child department.
         // Each child department also calculates its own employees and child departments recursively.
         for (Department child : children) {
-            total += child.calculateCost();
+            total += child.calculateBudget();
         }
 
         return total;
@@ -181,6 +181,6 @@ public class Department implements OrgUnit {
         }
 
         // Subtract the actual department cost from the allocated budget.
-        return activeBudget.getAllocatedAmount() - calculateCost();
+        return activeBudget.getAllocatedAmount() - calculateBudget();
     }
 }
