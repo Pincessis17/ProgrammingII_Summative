@@ -47,7 +47,28 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public Optional<Department> findById(int id) {
-        return Optional.empty();
+        String sql = "SELECT id, name, parent_department_id FROM department WHERE id = ?";
+
+        try (Connection conn = DatabaseConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Department department = new Department(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            null // parent resolved separately — see note below
+                    );
+                    return Optional.of(department);
+                }
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to find department with id: " + id, e);
+        }
     }
 
     @Override
