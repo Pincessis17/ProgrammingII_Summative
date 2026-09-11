@@ -119,7 +119,26 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public void update(Department department) {
+        String sql = "UPDATE department SET name = ?, parent_department_id = ? WHERE id = ?";
 
+        try (Connection conn = DatabaseConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, department.getName());
+
+            if (department.getParent() != null) {
+                stmt.setInt(2, department.getParent().getId());
+            } else {
+                stmt.setNull(2, java.sql.Types.INTEGER);
+            }
+
+            stmt.setInt(3, department.getId());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update department with id: " + department.getId(), e);
+        }
     }
 
     @Override
