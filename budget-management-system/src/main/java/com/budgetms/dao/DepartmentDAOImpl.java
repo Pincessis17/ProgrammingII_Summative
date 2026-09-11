@@ -11,6 +11,10 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
@@ -73,8 +77,45 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public List<Department> findAll() {
-        return List.of();
+        String sql = "SELECT id, name, parent_department_id FROM department";
+
+        Map<Integer, Department> departmentsById = new HashMap<>();
+        Map<Integer, Integer> parentIdByDepartmentId = new HashMap<>();
+
+        try (Connection conn = DatabaseConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int parentId = rs.getInt("parent_department_id");
+                boolean hasParent = !rs.wasNull();
+
+                Department department = new Department(id, name, null);
+                departmentsById.put(id, department);
+
+                if (hasParent) {
+                    parentIdByDepartmentId.put(id, parentId);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to load departments", e);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : parentIdByDepartmentId.entrySet()) {
+            Department child = departmentsById.get(entry.getKey());
+            Department parent = departmentsById.get(entry.getValue());
+            if (parent != null) {
+                parent.addChild(child);
+            }
+        }
+
+        return new ArrayList<>(departmentsById.values());
     }
+
+
 
     @Override
     public void update(Department department) {
