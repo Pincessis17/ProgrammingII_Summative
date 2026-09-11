@@ -55,7 +55,7 @@ public class BudgetController {
         });
 
         actualColumn.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().calculateCost()).asObject());
+                new SimpleDoubleProperty(cellData.getValue().calculateBudget()).asObject());
 
         varianceColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue();

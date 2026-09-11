@@ -63,6 +63,6 @@ public class BudgetBrowserController {
     private void showDetails(OrgUnit unit) {
         nameLabel.setText("Name: " + unit.getName());
         headcountLabel.setText("Headcount: " + unit.getHeadcount());
-        costLabel.setText("Cost: " + unit.calculateCost());
+        costLabel.setText("Cost: " + unit.calculateBudget());
     }
 }

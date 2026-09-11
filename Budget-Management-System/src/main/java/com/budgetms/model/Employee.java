@@ -1,5 +1,9 @@
 package com.budgetms.model;
 
+/**
+ * A single employee. An employee always counts as 1 person, and their
+ * cost is just their salary — no adding anything up.
+ */
 public class Employee implements OrgUnit {
 
     private String name;
@@ -20,7 +24,7 @@ public class Employee implements OrgUnit {
     }
 
     @Override
-    public double calculateCost() {
+    public double calculateBudget() {
         return salary;
     }
 
