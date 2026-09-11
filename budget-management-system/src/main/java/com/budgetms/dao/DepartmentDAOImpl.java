@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.budgetms.dao.DepartmentNotEmptyException;
 
 public class DepartmentDAOImpl implements DepartmentDAO {
 
@@ -171,7 +170,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
                     rs.next();
                     if (rs.getInt(1) > 0) {
                         throw new DepartmentNotEmptyException(
-                                "Cannot delete department: it still has employees assigned to it."
+                                "Cannot delete department: it still has child departments."
                         );
                     }
                 }
