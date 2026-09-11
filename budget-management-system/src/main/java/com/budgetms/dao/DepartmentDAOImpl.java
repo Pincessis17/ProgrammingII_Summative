@@ -143,6 +143,45 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public void delete(int id) {
+        //  a department cannot bedeleted while it still has employees or child departments.
 
+        String checkEmployees = "SELECT COUNT(*) FROM employee WHERE department_id = ?";
+        String checkChildren = "SELECT COUNT(*) FROM department WHERE parent_department_id = ?";
+        String deleteSql = "DELETE FROM department WHERE id = ?";
+
+        try (Connection conn = DatabaseConnectionManager.getConnection()) {
+
+            try (PreparedStatement stmt = conn.prepareStatement(checkEmployees)) {
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    rs.next();
+                    if (rs.getInt(1) > 0) {
+                        throw new IllegalStateException(
+                                "Cannot delete department: it still has employees assigned to it."
+                        );
+                    }
+                }
+            }
+
+            try (PreparedStatement stmt = conn.prepareStatement(checkChildren)) {
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    rs.next();
+                    if (rs.getInt(1) > 0) {
+                        throw new IllegalStateException(
+                                "Cannot delete department: it still has child departments."
+                        );
+                    }
+                }
+            }
+
+            try (PreparedStatement stmt = conn.prepareStatement(deleteSql)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to delete department with id: " + id, e);
+        }
     }
 }
