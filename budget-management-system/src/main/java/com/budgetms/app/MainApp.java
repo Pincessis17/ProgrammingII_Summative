@@ -1,5 +1,6 @@
 package com.budgetms.app;
 
+import com.budgetms.db.SchemaInitializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        SchemaInitializer.initializeSchema();
         FXMLLoader loader = new FXMLLoader(
                 Objects.requireNonNull(getClass().getResource("/fxml/MainShell.fxml")));
         Parent root = loader.load();
