@@ -148,7 +148,6 @@ public class Department implements OrgUnit {
         return total;
     }
 
-
     // Calculates the difference between the allocated budget and the actual cost of the department.
     // A positive result means money remains in the budget.
     // A negative result means the department has exceeded its budget.
