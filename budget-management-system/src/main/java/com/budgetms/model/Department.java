@@ -26,6 +26,22 @@ public class Department implements OrgUnit {
     // The budget currently assigned to this department.
     private Budget activeBudget;
 
+    // Maximum allowed depth of department nesting, counting the top level as depth 1.
+// This bounds the recursion in calculateCost()/getHeadcount() so it cannot run unbounded.
+    private static final int MAX_DEPTH = 6;
+
+    // Returns how deep this department sits in the hierarchy.
+// A top-level department (no parent) is depth 1.
+    private int getDepth() {
+        int depth = 1;
+        Department current = this.parent;
+        while (current != null) {
+            depth++;
+            current = current.getParent();
+        }
+        return depth;
+    }
+
 
     // Creates a new Department object.
     // The department is initialized with an ID, name, and parent department.
@@ -79,6 +95,11 @@ public class Department implements OrgUnit {
     // Adds a child department to this department.
     // The child's parent is also automatically set to this department.
     public void addChild(Department child) {
+        if (this.getDepth() + 1 > MAX_DEPTH) {
+            throw new IllegalStateException(
+                    "Cannot add child department: maximum nesting depth of " + MAX_DEPTH + " exceeded."
+            );
+        }
         child.setParent(this);
         children.add(child);
     }
@@ -111,18 +132,18 @@ public class Department implements OrgUnit {
     // Calculates the total cost of this department.
     // This includes the cost of employees directly in this department as well as the costs of all child departments.
     @Override
-    public double calculateCost() {
+    public double calculateBudget() {
         double total = 0.0;
 
         // Add the cost of each employee in this department.
         for (Employee e : employees) {
-            total += e.calculateCost();
+            total += e.calculateBudget();
         }
 
         // Add the cost of each child department.
         // Each child department also calculates its own employees and child departments recursively.
         for (Department child : children) {
-            total += child.calculateCost();
+            total += child.calculateBudget();
         }
 
         return total;
@@ -160,6 +181,6 @@ public class Department implements OrgUnit {
         }
 
         // Subtract the actual department cost from the allocated budget.
-        return activeBudget.getAllocatedAmount() - calculateCost();
+        return activeBudget.getAllocatedAmount() - calculateBudget();
     }
 }

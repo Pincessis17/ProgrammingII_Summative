@@ -75,7 +75,7 @@ public class DepartmentController {
         employeeCountColumn.setCellValueFactory(data ->
                 new SimpleStringProperty(String.valueOf(data.getValue().getEmployees().size())));
         costColumn.setCellValueFactory(data ->
-                new SimpleStringProperty(String.format("$%,.2f", data.getValue().calculateCost())));
+                new SimpleStringProperty(String.format("$%,.2f", data.getValue().calculateBudget())));
         budgetColumn.setCellValueFactory(data -> {
             Budget b = data.getValue().getActiveBudget();
             return new SimpleStringProperty(b == null ? "—" : String.format("$%,.2f", b.getAllocatedAmount()));

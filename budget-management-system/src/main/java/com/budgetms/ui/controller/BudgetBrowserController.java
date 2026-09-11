@@ -59,7 +59,7 @@ public class BudgetBrowserController {
                 }
                 if (unit instanceof Department d) {
                     setText(String.format("%s  —  $%,.2f  (%d staff)", d.getName(),
-                            d.calculateCost(), d.getHeadcount()));
+                            d.calculateBudget(), d.getHeadcount()));
                 } else {
                     Employee e = (Employee) unit;
                     setText(String.format("%s (%s)%s", e.getName(), e.getRole(),
@@ -95,7 +95,7 @@ public class BudgetBrowserController {
             selectedTypeLabel.setText("Department");
             detailLine1.setText(String.format("Direct employees: %d", d.getEmployees().size()));
             detailLine2.setText(String.format("Total headcount (incl. sub-departments): %d", d.getHeadcount()));
-            detailLine3.setText(String.format("Total cost (incl. sub-departments): $%,.2f", d.calculateCost()));
+            detailLine3.setText(String.format("Total cost (incl. sub-departments): $%,.2f", d.calculateBudget()));
             Budget b = d.getActiveBudget();
             detailLine4.setText(b == null
                     ? "No active budget allocation"

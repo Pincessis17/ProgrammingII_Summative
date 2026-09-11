@@ -107,7 +107,7 @@ public class Employee implements OrgUnit {
     // An active employee contributes their full salary.
     // An inactive employee contributes zero cost.
     @Override
-    public double calculateCost() {
+    public double calculateBudget() {
         return active ? salary : 0.0;
     }
 
