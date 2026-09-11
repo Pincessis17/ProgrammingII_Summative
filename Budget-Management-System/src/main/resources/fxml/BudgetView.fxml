@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.budgetms.ui.controller.BudgetController"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="com.budgetms.ui.controller.BudgetController">
 
-</AnchorPane>
+    <top>
+        <VBox spacing="10">
+            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+            <Label text="Budgets" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <ComboBox fx:id="departmentPicker" promptText="Department"/>
+                <TextField fx:id="categoryField" promptText="Category"/>
+                <TextField fx:id="amountField" promptText="Allocated amount"/>
+                <TextField fx:id="periodField" promptText="Period"/>
+                <Button text="Set Budget" onAction="#handleSetBudget"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="budgetTable">
+            <columns>
+                <TableColumn fx:id="departmentColumn" text="Department" prefWidth="150"/>
+                <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
+                <TableColumn fx:id="allocatedColumn" text="Allocated" prefWidth="100"/>
+                <TableColumn fx:id="actualColumn" text="Actual Cost" prefWidth="100"/>
+                <TableColumn fx:id="varianceColumn" text="Variance" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.budgetms.ui.controller.DepartmentController"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="com.budgetms.ui.controller.DepartmentController">
 
-</AnchorPane>
+    <top>
+        <VBox spacing="10">
+            <padding><Insets top="15" right="15" bottom="10" left="15"/></padding>
+            <Label text="Departments" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <HBox spacing="10">
+                <TextField fx:id="nameField" promptText="Department name"/>
+                <ComboBox fx:id="parentPicker" promptText="Parent (optional)"/>
+                <Button text="Add" onAction="#handleAdd"/>
+                <Button text="Delete Selected" onAction="#handleDelete"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="departmentTable">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
+                <TableColumn fx:id="headcountColumn" text="Headcount" prefWidth="100"/>
+                <TableColumn fx:id="costColumn" text="Cost" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
