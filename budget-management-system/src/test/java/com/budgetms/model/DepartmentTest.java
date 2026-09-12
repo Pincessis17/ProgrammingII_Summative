@@ -50,5 +50,35 @@ class DepartmentTest {
         // 5000 (faculty's own) + 3000 (CS's own) + 2800 (Software's own)
         assertEquals(10800.0, result);
     }
+
+    @Test
+    void getBudgetVariance_costUnderAllocation_returnsPositiveVariance() {
+        Department department = new Department(1, "Engineering", null);
+        Employee emp = new Employee(1, "Alice", "Developer", 3000.0, 1, true);
+        department.addEmployee(emp);
+
+        Budget budget = new Budget(1, 1, "2026-Q1", 5000.0);
+        department.setActiveBudget(budget);
+
+        double variance = department.getBudgetVariance();
+
+        // 5000 allocated - 3000 actual cost = 2000 remaining
+        assertEquals(2000.0, variance);
+    }
+
+    @Test
+    void getBudgetVariance_costExceedsAllocation_returnsNegativeVariance() {
+        Department department = new Department(1, "Engineering", null);
+        Employee emp = new Employee(1, "Alice", "Developer", 7000.0, 1, true);
+        department.addEmployee(emp);
+
+        Budget budget = new Budget(1, 1, "2026-Q1", 5000.0);
+        department.setActiveBudget(budget);
+
+        double variance = department.getBudgetVariance();
+
+        // 5000 allocated - 7000 actual cost = -2000 (over budget)
+        assertEquals(-2000.0, variance);
+    }
 }
 
