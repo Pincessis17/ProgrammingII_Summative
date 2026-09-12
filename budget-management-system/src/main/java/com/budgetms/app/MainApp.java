@@ -10,10 +10,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-/**
- * Entry point. Loads the main navigation shell (sidebar + swappable content
- * area) that the four screens live inside.
- */
 public class MainApp extends Application {
 
     @Override
@@ -23,14 +19,9 @@ public class MainApp extends Application {
                 Objects.requireNonNull(getClass().getResource("/fxml/MainShell.fxml")));
         Parent root = loader.load();
 
-        Scene scene = new Scene(root, 1100, 700);
-        scene.getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/app.css")).toExternalForm());
-
+        Scene scene = new Scene(root);
         stage.setTitle("Departmental Budget Management System");
         stage.setScene(scene);
-        stage.setMinWidth(900);
-        stage.setMinHeight(600);
         stage.show();
     }
 

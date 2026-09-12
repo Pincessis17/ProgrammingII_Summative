@@ -142,4 +142,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+.idea/
+*.iml
+target/
 db.properties
