@@ -16,12 +16,10 @@ import javafx.util.StringConverter;
 public class BudgetController {
 
     @FXML private ComboBox<Department> departmentPicker;
-    @FXML private TextField categoryField;
     @FXML private TextField amountField;
     @FXML private TextField periodField;
     @FXML private TableView<Department> budgetTable;
     @FXML private TableColumn<Department, String> departmentColumn;
-    @FXML private TableColumn<Department, String> categoryColumn;
     @FXML private TableColumn<Department, Double> allocatedColumn;
     @FXML private TableColumn<Department, Double> actualColumn;
     @FXML private TableColumn<Department, Double> varianceColumn;
@@ -44,18 +42,13 @@ public class BudgetController {
         departmentColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getName()));
 
-        categoryColumn.setCellValueFactory(cellData -> {
-            Budget budget = cellData.getValue().getActiveBudget();
-            return new SimpleStringProperty(budget == null ? "-" : budget.getCategory());
-        });
-
         allocatedColumn.setCellValueFactory(cellData -> {
             Budget budget = cellData.getValue().getActiveBudget();
             return new SimpleDoubleProperty(budget == null ? 0 : budget.getAllocatedAmount()).asObject();
         });
 
         actualColumn.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().calculateBudget()).asObject());
+                new SimpleDoubleProperty(cellData.getValue().calculateCost()).asObject());
 
         varianceColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue();
@@ -75,7 +68,6 @@ public class BudgetController {
             return;
         }
 
-        String category = categoryField.getText();
         String period = periodField.getText();
         double amount;
 
@@ -86,10 +78,9 @@ public class BudgetController {
             return;
         }
 
-        selected.setActiveBudget(new Budget(category, amount, period));
+        selected.setActiveBudget(new Budget(amount, period));
         budgetTable.refresh();
 
-        categoryField.clear();
         amountField.clear();
         periodField.clear();
     }

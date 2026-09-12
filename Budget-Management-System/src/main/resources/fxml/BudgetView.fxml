@@ -21,7 +21,6 @@
             <Label text="Budgets" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
             <HBox spacing="10">
                 <ComboBox fx:id="departmentPicker" promptText="Department"/>
-                <TextField fx:id="categoryField" promptText="Category"/>
                 <TextField fx:id="amountField" promptText="Allocated amount"/>
                 <TextField fx:id="periodField" promptText="Period"/>
                 <Button text="Set Budget" onAction="#handleSetBudget"/>
@@ -33,7 +32,6 @@
         <TableView fx:id="budgetTable">
             <columns>
                 <TableColumn fx:id="departmentColumn" text="Department" prefWidth="150"/>
-                <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
                 <TableColumn fx:id="allocatedColumn" text="Allocated" prefWidth="100"/>
                 <TableColumn fx:id="actualColumn" text="Actual Cost" prefWidth="100"/>
                 <TableColumn fx:id="varianceColumn" text="Variance" prefWidth="100"/>

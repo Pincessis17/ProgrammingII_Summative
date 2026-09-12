@@ -29,7 +29,7 @@ public class DepartmentController {
         headcountColumn.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getHeadcount()).asObject());
         costColumn.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleDoubleProperty(cellData.getValue().calculateBudget()).asObject());
+                new javafx.beans.property.SimpleDoubleProperty(cellData.getValue().calculateCost()).asObject());
 
         departmentTable.setItems(departments);
 
@@ -61,13 +61,7 @@ public class DepartmentController {
 
         Department parent = parentPicker.getValue();
         if (parent != null) {
-            try {
-                parent.addChild(newDepartment);
-            } catch (IllegalStateException e) {
-                showAlert(e.getMessage());
-                departments.remove(newDepartment);
-                return;
-            }
+            parent.addChild(newDepartment);
         }
 
         nameField.clear();

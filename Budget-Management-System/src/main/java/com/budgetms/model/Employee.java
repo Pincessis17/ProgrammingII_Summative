@@ -24,7 +24,7 @@ public class Employee implements OrgUnit {
     }
 
     @Override
-    public double calculateBudget() {
+    public double calculateCost() {
         return salary;
     }
 

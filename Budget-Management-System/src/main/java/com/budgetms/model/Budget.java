@@ -2,22 +2,12 @@ package com.budgetms.model;
 
 public class Budget {
 
-    private String category;
     private double allocatedAmount;
     private String period;
 
-    public Budget(String category, double allocatedAmount, String period) {
-        this.category = category;
+    public Budget(double allocatedAmount, String period) {
         this.allocatedAmount = allocatedAmount;
         this.period = period;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public double getAllocatedAmount() {

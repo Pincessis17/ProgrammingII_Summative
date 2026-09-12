@@ -75,7 +75,7 @@ public class EmployeeController {
 
         Department department = departmentPicker.getValue();
         if (department != null) {
-            department.addChild(newEmployee);
+            department.addEmployee(newEmployee);
         }
 
         nameField.clear();

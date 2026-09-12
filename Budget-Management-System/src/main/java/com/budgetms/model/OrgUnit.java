@@ -16,7 +16,7 @@ public interface OrgUnit {
      * An employee just returns their own cost.
      * A department returns its own budget plus everything under it added up.
      */
-    double calculateBudget();
+    double calculateCost();
 
     /**
      * How many people this counts as.
