@@ -1,6 +1,8 @@
 package com.budgetms.ui.controller;
 
 import com.budgetms.app.AppState;
+import com.budgetms.dao.EmployeeDAO;
+import com.budgetms.dao.EmployeeDAOImpl;
 import com.budgetms.model.Department;
 import com.budgetms.model.Employee;
 import javafx.collections.FXCollections;
@@ -27,6 +29,7 @@ public class EmployeeController {
     @FXML private TableColumn<Employee, Boolean> activeColumn;
 
     private final ObservableList<Employee> employees = FXCollections.observableArrayList();
+    private final EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
     @FXML
     public void initialize() {
@@ -35,6 +38,7 @@ public class EmployeeController {
         salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
 
+        employees.setAll(employeeDAO.findAll());
         employeeTable.setItems(employees);
 
         departmentPicker.setItems(AppState.departments);
@@ -71,12 +75,14 @@ public class EmployeeController {
         }
 
         Employee newEmployee = new Employee(name, role, salary);
-        employees.add(newEmployee);
 
         Department department = departmentPicker.getValue();
         if (department != null) {
             department.addEmployee(newEmployee);
         }
+
+        employeeDAO.create(newEmployee);
+        employees.add(newEmployee);
 
         nameField.clear();
         roleField.clear();
@@ -93,7 +99,14 @@ public class EmployeeController {
             return;
         }
 
-        selected.setActive(!selected.isActive());
+        if (selected.isActive()) {
+            employeeDAO.deactivate(selected.getId());
+            selected.setActive(false);
+        } else {
+            selected.setActive(true);
+            employeeDAO.update(selected);
+        }
+
         employeeTable.refresh();
     }
 

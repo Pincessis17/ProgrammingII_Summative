@@ -1,6 +1,8 @@
 package com.budgetms.ui.controller;
 
 import com.budgetms.app.AppState;
+import com.budgetms.dao.BudgetDAO;
+import com.budgetms.dao.BudgetDAOImpl;
 import com.budgetms.model.Budget;
 import com.budgetms.model.Department;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,6 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
+import java.util.Optional;
+
 public class BudgetController {
 
     @FXML private ComboBox<Department> departmentPicker;
@@ -23,6 +27,8 @@ public class BudgetController {
     @FXML private TableColumn<Department, Double> allocatedColumn;
     @FXML private TableColumn<Department, Double> actualColumn;
     @FXML private TableColumn<Department, Double> varianceColumn;
+
+    private final BudgetDAO budgetDAO = new BudgetDAOImpl();
 
     @FXML
     public void initialize() {
@@ -78,7 +84,17 @@ public class BudgetController {
             return;
         }
 
-        selected.setActiveBudget(new Budget(amount, period));
+        Budget budget = new Budget(amount, period);
+        selected.setActiveBudget(budget);
+
+        Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
+        if (existing.isPresent()) {
+            budget.setId(existing.get().getId());
+            budgetDAO.update(budget);
+        } else {
+            budgetDAO.create(budget);
+        }
+
         budgetTable.refresh();
 
         amountField.clear();

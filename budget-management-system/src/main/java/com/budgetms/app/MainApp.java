@@ -1,5 +1,7 @@
 package com.budgetms.app;
 
+import com.budgetms.dao.DepartmentDAO;
+import com.budgetms.dao.DepartmentDAOImpl;
 import com.budgetms.db.SchemaInitializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,10 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         SchemaInitializer.initializeSchema();
+
+        DepartmentDAO departmentDAO = new DepartmentDAOImpl();
+        AppState.departments.setAll(departmentDAO.findAll());
+
         FXMLLoader loader = new FXMLLoader(
                 Objects.requireNonNull(getClass().getResource("/fxml/MainShell.fxml")));
         Parent root = loader.load();

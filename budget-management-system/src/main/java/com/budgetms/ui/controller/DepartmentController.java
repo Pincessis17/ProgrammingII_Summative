@@ -1,6 +1,9 @@
 package com.budgetms.ui.controller;
 
 import com.budgetms.app.AppState;
+import com.budgetms.dao.DepartmentDAO;
+import com.budgetms.dao.DepartmentDAOImpl;
+import com.budgetms.dao.DepartmentNotEmptyException;
 import com.budgetms.model.Department;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +25,7 @@ public class DepartmentController {
     @FXML private TableColumn<Department, Double> costColumn;
 
     private final ObservableList<Department> departments = AppState.departments;
+    private final DepartmentDAO departmentDAO = new DepartmentDAOImpl();
 
     @FXML
     public void initialize() {
@@ -57,7 +61,6 @@ public class DepartmentController {
         }
 
         Department newDepartment = new Department(name);
-        departments.add(newDepartment);
 
         Department parent = parentPicker.getValue();
         if (parent != null) {
@@ -65,10 +68,12 @@ public class DepartmentController {
                 parent.addChild(newDepartment);
             } catch (IllegalStateException e) {
                 showAlert(e.getMessage());
-                departments.remove(newDepartment);
                 return;
             }
         }
+
+        departmentDAO.create(newDepartment);
+        departments.add(newDepartment);
 
         nameField.clear();
         parentPicker.setValue(null);
@@ -85,6 +90,13 @@ public class DepartmentController {
 
         if (!selected.getEmployees().isEmpty() || !selected.getChildren().isEmpty()) {
             showAlert("Can't delete a department that still has employees or sub-departments.");
+            return;
+        }
+
+        try {
+            departmentDAO.delete(selected.getId());
+        } catch (DepartmentNotEmptyException e) {
+            showAlert(e.getMessage());
             return;
         }
 
