@@ -39,7 +39,7 @@ public class BudgetBrowserController {
 
     private boolean isChildOfAny(Department department) {
         for (Department other : AppState.departments) {
-            if (other.getSubDepartments().contains(department)) {
+            if (other.getChildren().contains(department)) {
                 return true;
             }
         }
@@ -49,7 +49,7 @@ public class BudgetBrowserController {
     private TreeItem<OrgUnit> buildNode(Department department) {
         TreeItem<OrgUnit> node = new TreeItem<>(department);
 
-        for (Department child : department.getSubDepartments()) {
+        for (Department child : department.getChildren()) {
             node.getChildren().add(buildNode(child));
         }
 
@@ -63,6 +63,6 @@ public class BudgetBrowserController {
     private void showDetails(OrgUnit unit) {
         nameLabel.setText("Name: " + unit.getName());
         headcountLabel.setText("Headcount: " + unit.getHeadcount());
-        costLabel.setText("Cost: " + unit.calculateCost());
+        costLabel.setText("Cost: " + unit.calculateBudget());
     }
 }

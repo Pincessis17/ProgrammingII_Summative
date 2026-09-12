@@ -13,14 +13,14 @@ public interface OrgUnit {
 
     /**
      * How much this costs in total.
-     * An employee just returns their own cost.
+     * An employee just returns their own cost (or 0 if inactive).
      * A department returns its own budget plus everything under it added up.
      */
-    double calculateCost();
+    double calculateBudget();
 
     /**
      * How many people this counts as.
-     * An employee is always 1.
+     * An employee is 1 if active, 0 if inactive.
      * A department is everyone inside it, including people in smaller
      * departments underneath it.
      */
