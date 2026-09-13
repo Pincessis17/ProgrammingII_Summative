@@ -2,6 +2,7 @@ package com.budgetms.model;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DepartmentTest {
 
@@ -79,6 +80,26 @@ class DepartmentTest {
 
         // 5000 allocated - 7000 actual cost = -2000 (over budget)
         assertEquals(-2000.0, variance);
+    }
+
+    @Test
+    void addChild_exceedsMaxDepth_throwsIllegalStateException() {
+        Department d1 = new Department(1, "Level 1", null);
+        Department d2 = new Department(2, "Level 2", null);
+        Department d3 = new Department(3, "Level 3", null);
+        Department d4 = new Department(4, "Level 4", null);
+        Department d5 = new Department(5, "Level 5", null);
+        Department d6 = new Department(6, "Level 6", null);
+        Department d7 = new Department(7, "Level 7", null);
+
+        d1.addChild(d2);
+        d2.addChild(d3);
+        d3.addChild(d4);
+        d4.addChild(d5);
+        d5.addChild(d6);
+
+        // d6 is already at depth 6 (your MAX_DEPTH) — adding one more should fail
+        assertThrows(IllegalStateException.class, () -> d6.addChild(d7));
     }
 }
 
