@@ -5,6 +5,7 @@ import com.budgetms.dao.DepartmentDAO;
 import com.budgetms.dao.DepartmentDAOImpl;
 import com.budgetms.dao.DepartmentNotEmptyException;
 import com.budgetms.model.Department;
+import com.budgetms.util.ValidationUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -55,8 +56,10 @@ public class DepartmentController {
     private void handleAdd() {
         String name = nameField.getText();
 
-        if (name == null || name.isBlank()) {
-            showAlert("Please enter a department name.");
+        try {
+            ValidationUtils.requireNonBlank(name, "Department name");
+        } catch (IllegalArgumentException e) {
+            showAlert(e.getMessage());
             return;
         }
 

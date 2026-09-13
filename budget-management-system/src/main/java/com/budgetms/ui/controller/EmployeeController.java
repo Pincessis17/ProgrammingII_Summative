@@ -5,6 +5,7 @@ import com.budgetms.dao.EmployeeDAO;
 import com.budgetms.dao.EmployeeDAOImpl;
 import com.budgetms.model.Department;
 import com.budgetms.model.Employee;
+import com.budgetms.util.ValidationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -61,16 +62,13 @@ public class EmployeeController {
         String role = roleField.getText();
         String salaryText = salaryField.getText();
 
-        if (name == null || name.isBlank() || role == null || role.isBlank()) {
-            showAlert("Name and role are required.");
-            return;
-        }
-
         double salary;
         try {
-            salary = Double.parseDouble(salaryText);
-        } catch (NumberFormatException e) {
-            showAlert("Salary must be a number.");
+            ValidationUtils.requireNonBlank(name, "Name");
+            ValidationUtils.requireNonBlank(role, "Role");
+            salary = ValidationUtils.requirePositiveNumber(salaryText, "Salary");
+        } catch (IllegalArgumentException e) {
+            showAlert(e.getMessage());
             return;
         }
 

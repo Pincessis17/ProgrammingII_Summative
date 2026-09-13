@@ -5,6 +5,7 @@ import com.budgetms.dao.BudgetDAO;
 import com.budgetms.dao.BudgetDAOImpl;
 import com.budgetms.model.Budget;
 import com.budgetms.model.Department;
+import com.budgetms.util.ValidationUtils;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -78,9 +79,10 @@ public class BudgetController {
         double amount;
 
         try {
-            amount = Double.parseDouble(amountField.getText());
-        } catch (NumberFormatException e) {
-            showAlert("Allocated amount must be a number.");
+            ValidationUtils.requireNonBlank(period, "Period");
+            amount = ValidationUtils.requirePositiveNumber(amountField.getText(), "Allocated amount");
+        } catch (IllegalArgumentException e) {
+            showAlert(e.getMessage());
             return;
         }
 
