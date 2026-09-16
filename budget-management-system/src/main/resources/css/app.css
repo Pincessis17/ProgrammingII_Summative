@@ -1,0 +1,159 @@
+/*
+ * Departmental Budget Management System — application stylesheet.
+ * Applied once at the Scene level in MainApp, so it covers every FXML view
+ * that gets swapped into MainShell's content area.
+ */
+
+/* ---------- Palette (kept as root variables so colors stay consistent) ---------- */
+.root {
+    -fx-navy: #1f2d3d;
+    -fx-navy-dark: #16212d;
+    -fx-accent: #2f6fed;
+    -fx-accent-dark: #2558c0;
+    -fx-bg: #f4f6f8;
+    -fx-surface: #ffffff;
+    -fx-border-soft: #d6dde4;
+    -fx-text-main: #1f2d3d;
+    -fx-text-muted: #5a6b7a;
+
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -fx-bg;
+}
+
+/* ---------- Layout containers ---------- */
+.border-pane {
+    -fx-background-color: -fx-bg;
+}
+
+.sidebar {
+    -fx-background-color: -fx-navy;
+    -fx-pref-width: 190px;
+    -fx-spacing: 8;
+}
+
+.sidebar .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #dce6f2;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.sidebar .button:hover {
+    -fx-background-color: -fx-navy-dark;
+    -fx-text-fill: white;
+}
+
+.sidebar .button:pressed,
+.sidebar .button:armed {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+}
+
+/* ---------- Section headers (the bold Label at the top of each view) ---------- */
+.label {
+    -fx-text-fill: -fx-text-main;
+}
+
+/* ---------- Buttons (Add / Delete / etc. inside each view) ---------- */
+.button {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 6 16 6 16;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -fx-accent-dark;
+}
+
+.button:pressed,
+.button:armed {
+    -fx-background-color: -fx-navy-dark;
+}
+
+.button:disabled {
+    -fx-opacity: 0.55;
+}
+
+/* ---------- Text fields & combo boxes ---------- */
+.text-field,
+.combo-box {
+    -fx-background-color: -fx-surface;
+    -fx-background-radius: 5;
+    -fx-border-color: -fx-border-soft;
+    -fx-border-radius: 5;
+    -fx-padding: 5 8 5 8;
+}
+
+.text-field:focused,
+.combo-box:focused {
+    -fx-border-color: -fx-accent;
+}
+
+/* ---------- Tables (Department / Employee / Budget lists) ---------- */
+.table-view {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-border-soft;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -fx-navy;
+    -fx-background-radius: 6 6 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent -fx-navy-dark transparent transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.table-row-cell {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: transparent transparent #eef1f4 transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8fafc;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: derive(-fx-accent, 70%);
+    -fx-text-fill: -fx-text-main;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: -fx-text-main;
+    -fx-padding: 6 8 6 8;
+}
+
+/* ---------- Budget Browser tree + labels ---------- */
+.tree-view {
+    -fx-background-color: -fx-surface;
+    -fx-border-color: -fx-border-soft;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.tree-cell {
+    -fx-padding: 4 6 4 6;
+}
+
+.tree-cell:selected {
+    -fx-background-color: derive(-fx-accent, 70%);
+    -fx-text-fill: -fx-text-main;
+}

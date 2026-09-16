@@ -12,7 +12,7 @@
             prefWidth="900" prefHeight="600">
 
     <left>
-        <VBox spacing="10">
+        <VBox spacing="10" styleClass="sidebar">
             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
             <Button text="Departments" onAction="#showDepartments" maxWidth="Infinity"/>
             <Button text="Employees" onAction="#showEmployees" maxWidth="Infinity"/>

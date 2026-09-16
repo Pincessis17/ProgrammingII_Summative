@@ -6,6 +6,7 @@ import com.budgetms.model.Employee;
 import com.budgetms.model.OrgUnit;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
@@ -29,6 +30,25 @@ public class BudgetBrowserController {
 
         orgTree.setRoot(root);
         orgTree.setShowRoot(false);
+
+        // Without this, the tree falls back to Object.toString() and shows
+        // raw class/hashcode text instead of a readable name. This keeps that
+        // display concern in the UI layer instead of the model classes.
+        orgTree.setCellFactory(tv -> new TreeCell<OrgUnit>() {
+            @Override
+            protected void updateItem(OrgUnit unit, boolean empty) {
+                super.updateItem(unit, empty);
+                getStyleClass().removeAll("org-department-cell", "org-employee-cell");
+
+                if (empty || unit == null) {
+                    setText(null);
+                } else {
+                    setText(unit.getName());
+                    getStyleClass().add(
+                            unit instanceof Department ? "org-department-cell" : "org-employee-cell");
+                }
+            }
+        });
 
         orgTree.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {
