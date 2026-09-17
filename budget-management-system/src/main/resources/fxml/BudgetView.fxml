@@ -24,6 +24,7 @@
                 <TextField fx:id="amountField" promptText="Allocated amount"/>
                 <TextField fx:id="periodField" promptText="Period"/>
                 <Button text="Set Budget" onAction="#handleSetBudget"/>
+                <Button text="Delete Budget" onAction="#handleDeleteBudget"/>
             </HBox>
         </VBox>
     </top>

@@ -92,6 +92,28 @@ public class BudgetController {
     }
 
     @FXML
+    private void handleDeleteBudget() {
+        Department selected = departmentPicker.getValue();
+
+        if (selected == null) {
+            showAlert("Choose a department first.");
+            return;
+        }
+
+        Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
+
+        if (existing.isEmpty()) {
+            showAlert("This department has no budget to delete.");
+            return;
+        }
+
+        budgetDAO.delete(existing.get().getId());
+        selected.setActiveBudget(null);
+
+        budgetTable.refresh();
+    }
+
+    @FXML
     private void handleSetBudget() {
         Department selected = departmentPicker.getValue();
 
