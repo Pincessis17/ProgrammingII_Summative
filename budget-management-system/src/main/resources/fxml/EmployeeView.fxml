@@ -25,6 +25,7 @@
                 <TextField fx:id="salaryField" promptText="Salary"/>
                 <ComboBox fx:id="departmentPicker" promptText="Department (optional)"/>
                 <Button text="Add" onAction="#handleAdd"/>
+                <Button text="Update" onAction="#handleUpdate"/>
                 <Button text="Toggle Active" onAction="#handleToggleActive"/>
             </HBox>
         </VBox>

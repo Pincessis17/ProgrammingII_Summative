@@ -50,6 +50,14 @@ public class EmployeeController {
         employees.setAll(employeeDAO.findAll());
         employeeTable.setItems(employees);
 
+        employeeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                nameField.setText(newSelection.getName());
+                roleField.setText(newSelection.getRole());
+                salaryField.setText(String.valueOf(newSelection.getSalary()));
+            }
+        });
+
         departmentPicker.setItems(AppState.departments);
         departmentPicker.setConverter(new StringConverter<Department>() {
             @Override
@@ -89,6 +97,47 @@ public class EmployeeController {
 
         employeeDAO.create(newEmployee);
         employees.add(newEmployee);
+
+        nameField.clear();
+        roleField.clear();
+        salaryField.clear();
+        departmentPicker.setValue(null);
+    }
+
+    @FXML
+    private void handleUpdate() {
+        Employee selected = employeeTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showAlert("Select an employee first.");
+            return;
+        }
+
+        String name = nameField.getText();
+        String role = roleField.getText();
+        String salaryText = salaryField.getText();
+
+        double salary;
+        try {
+            ValidationUtils.requireNonBlank(name, "Name");
+            ValidationUtils.requireNonBlank(role, "Role");
+            salary = ValidationUtils.requirePositiveNumber(salaryText, "Salary");
+        } catch (IllegalArgumentException e) {
+            showAlert(e.getMessage());
+            return;
+        }
+
+        selected.setName(name);
+        selected.setRole(role);
+        selected.setSalary(salary);
+
+        Department newDepartment = departmentPicker.getValue();
+        if (newDepartment != null) {
+            selected.setDepartmentId(newDepartment.getId());
+        }
+
+        employeeDAO.update(selected);
+        employeeTable.refresh();
 
         nameField.clear();
         roleField.clear();
