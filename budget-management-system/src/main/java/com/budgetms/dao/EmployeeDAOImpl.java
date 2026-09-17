@@ -137,6 +137,27 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
+    public List<Employee> findByActiveStatus(boolean active) {
+        String sql = "SELECT id, name, role, salary, active, department_id FROM employee WHERE active = ?";
+        List<Employee> employees = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnectionManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setBoolean(1, active);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    employees.add(mapRow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to load employees by active status: " + active, e);
+        }
+
+        return employees;
+    }
+
+    @Override
     public void deactivate(int id) {
         // Employees are never deleted, only marked inactive to  preserve  historical salary and headcount data
 

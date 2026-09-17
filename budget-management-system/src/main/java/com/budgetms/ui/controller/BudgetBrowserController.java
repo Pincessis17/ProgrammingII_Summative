@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import com.budgetms.util.CurrencyFormatter;
 
 public class BudgetBrowserController {
 
@@ -83,6 +84,6 @@ public class BudgetBrowserController {
     private void showDetails(OrgUnit unit) {
         nameLabel.setText("Name: " + unit.getName());
         headcountLabel.setText("Headcount: " + unit.getHeadcount());
-        costLabel.setText("Cost: " + unit.calculateBudget());
+        costLabel.setText("Cost: " + CurrencyFormatter.format(unit.calculateBudget()));
     }
 }

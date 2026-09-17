@@ -15,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import com.budgetms.util.CurrencyFormatter;
 
 import java.util.Optional;
 
@@ -54,13 +55,37 @@ public class BudgetController {
             return new SimpleDoubleProperty(budget == null ? 0 : budget.getAllocatedAmount()).asObject();
         });
 
+        allocatedColumn.setCellFactory(col -> new javafx.scene.control.TableCell<Department, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : CurrencyFormatter.format(value));
+            }
+        });
+
         actualColumn.setCellValueFactory(cellData ->
                 new SimpleDoubleProperty(cellData.getValue().calculateBudget()).asObject());
+
+        actualColumn.setCellFactory(col -> new javafx.scene.control.TableCell<Department, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : CurrencyFormatter.format(value));
+            }
+        });
 
         varianceColumn.setCellValueFactory(cellData -> {
             Department department = cellData.getValue();
             double variance = department.getActiveBudget() == null ? 0 : department.getBudgetVariance();
             return new SimpleDoubleProperty(variance).asObject();
+        });
+
+        varianceColumn.setCellFactory(col -> new javafx.scene.control.TableCell<Department, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : CurrencyFormatter.format(value));
+            }
         });
 
         budgetTable.setItems(AppState.departments);

@@ -14,6 +14,8 @@ public interface EmployeeDAO {
 
     List<Employee> findByDepartmentId(int departmentId);
 
+    List<Employee> findByActiveStatus(boolean active);
+
     void update(Employee employee);
 
     void deactivate(int id);

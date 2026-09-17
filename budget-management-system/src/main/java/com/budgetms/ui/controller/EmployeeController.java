@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
+import com.budgetms.util.CurrencyFormatter;
 
 public class EmployeeController {
 
@@ -37,6 +38,13 @@ public class EmployeeController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
         salaryColumn.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        salaryColumn.setCellFactory(col -> new javafx.scene.control.TableCell<Employee, Double>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty || value == null ? null : CurrencyFormatter.format(value));
+            }
+        });
         activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
 
         employees.setAll(employeeDAO.findAll());
