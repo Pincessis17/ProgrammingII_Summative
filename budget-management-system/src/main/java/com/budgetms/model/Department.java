@@ -92,6 +92,23 @@ public class Department implements OrgUnit {
         children.add(child);
     }
 
+    // Removes a child department from this department's children list, without deleting it from the database. Used when reassigning a department to a different parent, so the old parent's list stays accurate and calculateBudget()/getHeadcount() don't double-count it.
+    public void removeChild(Department child) {
+        children.remove(child);
+    }
+    // Returns true if this department is this-or-an-ancestor-of possibleDescendant - i.e. possibleDescendant sits somewhere in this department's own subtree.Used to block reparenting moves that would create a cycle.
+    public boolean isAncestorOf(Department possibleDescendant) {
+        if (this == possibleDescendant) {
+            return true;
+        }
+        for (Department child : children) {
+            if (child.isAncestorOf(possibleDescendant)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Department> getChildren() {
         return children;
     }
@@ -103,6 +120,11 @@ public class Department implements OrgUnit {
     public void addEmployee(Employee employee) {
         employee.setDepartmentId(this.id);
         employees.add(employee);
+    }
+
+    // Removes an employee from this department's in-memory list, without touching the database. Used when reassigning an employee to a different department, so this department's own recursive totals stay accurate without needing a full reload from the database.
+    public void removeEmployee(Employee employee) {
+        employees.remove(employee);
     }
 
     public List<Employee> getEmployees() {

@@ -55,6 +55,7 @@ public class EmployeeController {
                 nameField.setText(newSelection.getName());
                 roleField.setText(newSelection.getRole());
                 salaryField.setText(String.valueOf(newSelection.getSalary()));
+                departmentPicker.setValue(findDepartmentById(newSelection.getDepartmentId()));
             }
         });
 
@@ -131,9 +132,15 @@ public class EmployeeController {
         selected.setRole(role);
         selected.setSalary(salary);
 
+        Department oldDepartment = findDepartmentById(selected.getDepartmentId());
         Department newDepartment = departmentPicker.getValue();
-        if (newDepartment != null) {
+
+        if (newDepartment != null && newDepartment != oldDepartment) {
+            if (oldDepartment != null) {
+                oldDepartment.removeEmployee(selected);
+            }
             selected.setDepartmentId(newDepartment.getId());
+            newDepartment.addEmployee(selected);
         }
 
         employeeDAO.update(selected);
@@ -163,6 +170,15 @@ public class EmployeeController {
         }
 
         employeeTable.refresh();
+    }
+
+    private Department findDepartmentById(int id) {
+        for (Department d : AppState.departments) {
+            if (d.getId() == id) {
+                return d;
+            }
+        }
+        return null;
     }
 
     private void showAlert(String message) {

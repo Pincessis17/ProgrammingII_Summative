@@ -38,6 +38,12 @@ public class DepartmentController {
 
         departmentTable.setItems(departments);
 
+        departmentTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                nameField.setText(newSelection.getName());
+            }
+        });
+
         parentPicker.setItems(AppState.departments);
         parentPicker.setConverter(new StringConverter<Department>() {
             @Override
@@ -77,6 +83,64 @@ public class DepartmentController {
 
         departmentDAO.create(newDepartment);
         departments.add(newDepartment);
+
+        nameField.clear();
+        parentPicker.setValue(null);
+    }
+
+    @FXML
+    private void handleUpdate() {
+        Department selected = departmentTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showAlert("Select a department to update first.");
+            return;
+        }
+
+        String name = nameField.getText();
+        try {
+            ValidationUtils.requireNonBlank(name, "Department name");
+        } catch (IllegalArgumentException e) {
+            showAlert(e.getMessage());
+            return;
+        }
+
+        selected.setName(name);
+
+        Department newParent = parentPicker.getValue();
+        Department oldParent = selected.getParent();
+
+        if (newParent == selected) {
+            showAlert("A department cannot be its own parent.");
+            return;
+        }
+
+        if (newParent != null && selected.isAncestorOf(newParent)) {
+            showAlert("Can't move a department under one of its own sub-departments.");
+            return;
+        }
+
+        if (newParent != oldParent) {
+            if (oldParent != null) {
+                oldParent.removeChild(selected);
+            }
+            try {
+                if (newParent != null) {
+                    newParent.addChild(selected);
+                } else {
+                    selected.setParent(null);
+                }
+            } catch (IllegalStateException e) {
+                if (oldParent != null) {
+                    oldParent.addChild(selected); // move failed — put it back
+                }
+                showAlert(e.getMessage());
+                return;
+            }
+        }
+
+        departmentDAO.update(selected);
+        departmentTable.refresh();
 
         nameField.clear();
         parentPicker.setValue(null);

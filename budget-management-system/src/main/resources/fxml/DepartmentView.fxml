@@ -23,6 +23,7 @@
                 <TextField fx:id="nameField" promptText="Department name"/>
                 <ComboBox fx:id="parentPicker" promptText="Parent (optional)"/>
                 <Button text="Add" onAction="#handleAdd"/>
+                <Button text="Update" onAction="#handleUpdate"/>
                 <Button text="Delete Selected" onAction="#handleDelete"/>
             </HBox>
         </VBox>
@@ -32,7 +33,7 @@
         <TableView fx:id="departmentTable">
             <columns>
                 <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
-                <TableColumn fx:id="headcountColumn" text="Headcount" prefWidth="100"/>
+                <TableColumn fx:id="headcountColumn" text="Total Employees" prefWidth="120"/>
                 <TableColumn fx:id="costColumn" text="Cost" prefWidth="120"/>
             </columns>
         </TableView>
