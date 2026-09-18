@@ -24,13 +24,22 @@ public class DepartmentController {
     @FXML private TableColumn<Department, String> nameColumn;
     @FXML private TableColumn<Department, Integer> headcountColumn;
     @FXML private TableColumn<Department, Double> costColumn;
+    @FXML private TableColumn<Department, String> parentColumn;
 
     private final ObservableList<Department> departments = AppState.departments;
     private final DepartmentDAO departmentDAO = new DepartmentDAOImpl();
 
     @FXML
     public void initialize() {
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setCellValueFactory(cellData -> {
+            Department dept = cellData.getValue();
+            String indent = "    ".repeat(dept.getDepth());
+            return new javafx.beans.property.SimpleStringProperty(indent + dept.getName());
+        });
+        parentColumn.setCellValueFactory(cellData -> {
+            Department parent = cellData.getValue().getParent();
+            return new javafx.beans.property.SimpleStringProperty(parent == null ? "—" : parent.getName());
+        });
         headcountColumn.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getHeadcount()).asObject());
         costColumn.setCellValueFactory(cellData ->

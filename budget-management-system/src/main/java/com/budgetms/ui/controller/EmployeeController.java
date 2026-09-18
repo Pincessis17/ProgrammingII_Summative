@@ -98,7 +98,7 @@ public class EmployeeController {
 
         employeeDAO.create(newEmployee);
         employees.add(newEmployee);
-
+        AppState.refreshEmployees();
         nameField.clear();
         roleField.clear();
         salaryField.clear();
@@ -145,6 +145,7 @@ public class EmployeeController {
 
         employeeDAO.update(selected);
         employeeTable.refresh();
+        AppState.refreshEmployees();
 
         nameField.clear();
         roleField.clear();
@@ -170,6 +171,7 @@ public class EmployeeController {
         }
 
         employeeTable.refresh();
+        AppState.refreshEmployees();
     }
 
     private Department findDepartmentById(int id) {

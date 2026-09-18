@@ -68,7 +68,7 @@ public class Department implements OrgUnit {
      * How deep this department sits in the hierarchy. A top-level
      * department (no parent) is depth 1.
      */
-    private int getDepth() {
+    public int getDepth() {
         int depth = 1;
         Department current = this.parent;
         while (current != null) {
@@ -146,6 +146,7 @@ public class Department implements OrgUnit {
         this.activeBudget = activeBudget;
     }
 
+
     @Override
     public double calculateBudget() {
         double total = 0;
@@ -189,4 +190,5 @@ public class Department implements OrgUnit {
         }
         return activeBudget.getAllocatedAmount() - calculateBudget();
     }
+
 }
