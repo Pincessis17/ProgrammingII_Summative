@@ -90,7 +90,13 @@ public class DepartmentController {
             }
         }
 
-        departmentDAO.create(newDepartment);
+        try {
+            departmentDAO.create(newDepartment);
+        } catch (RuntimeException e) {
+            showAlert("Couldn't save this department. Check that the database is running, then try again.");
+            return;
+        }
+
         departments.add(newDepartment);
 
         nameField.clear();
@@ -148,7 +154,12 @@ public class DepartmentController {
             }
         }
 
-        departmentDAO.update(selected);
+        try {
+            departmentDAO.update(selected);
+        } catch (RuntimeException e) {
+            showAlert("Couldn't save these changes. Check that the database is running, then try again.");
+            return;
+        }
         departmentTable.refresh();
 
         nameField.clear();
@@ -173,6 +184,9 @@ public class DepartmentController {
             departmentDAO.delete(selected.getId());
         } catch (DepartmentNotEmptyException e) {
             showAlert(e.getMessage());
+            return;
+        } catch (RuntimeException e) {
+            showAlert("Couldn't delete this department. Check that the database is running, then try again.");
             return;
         }
 

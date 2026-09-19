@@ -17,7 +17,7 @@
         <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
         <Label text="Details" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
         <Label fx:id="nameLabel" text="Name: -"/>
-        <Label fx:id="headcountLabel" text="Headcount: -"/>
+        <Label fx:id="headcountLabel" text="Total Employees: -"/>
         <Label fx:id="costLabel" text="Cost: -"/>
     </VBox>
 

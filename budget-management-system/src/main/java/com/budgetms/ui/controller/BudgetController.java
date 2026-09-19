@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import com.budgetms.util.CurrencyFormatter;
+import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 
@@ -89,6 +90,27 @@ public class BudgetController {
         });
 
         budgetTable.setItems(AppState.departments);
+
+        departmentPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal == null) {
+                amountField.clear();
+                periodField.clear();
+                return;
+            }
+            Optional<Budget> existing;
+            try {
+                existing = budgetDAO.findByDepartmentId(newVal.getId());
+            } catch (RuntimeException e) {
+                existing = Optional.empty();
+            }
+            if (existing.isPresent()) {
+                amountField.setText(String.valueOf(existing.get().getAllocatedAmount()));
+                periodField.setText(existing.get().getPeriod());
+            } else {
+                amountField.clear();
+                periodField.clear();
+            }
+        });
     }
 
     @FXML
@@ -100,15 +122,32 @@ public class BudgetController {
             return;
         }
 
-        Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
+        try {
+            Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
 
-        if (existing.isEmpty()) {
-            showAlert("This department has no budget to delete.");
+            if (existing.isEmpty()) {
+                showAlert("This department has no budget to delete.");
+                return;
+            }
+
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Delete the budget for " + selected.getName() + "? This action can't be undone.",
+                    ButtonType.OK, ButtonType.CANCEL);
+            confirm.setHeaderText("Delete budget");
+            Optional<ButtonType> result = confirm.showAndWait();
+            if (result.isEmpty() || result.get() != ButtonType.OK) {
+                return;
+            }
+
+            budgetDAO.delete(existing.get().getId());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            showAlert("Couldn't delete this budget. Check that the database is running, then try again.");
             return;
         }
-
-        budgetDAO.delete(existing.get().getId());
         selected.setActiveBudget(null);
+        amountField.clear();
+        periodField.clear();
 
         budgetTable.refresh();
     }
@@ -134,15 +173,22 @@ public class BudgetController {
         }
 
         Budget budget = new Budget(amount, period);
-        selected.setActiveBudget(budget);
+        budget.setDepartmentId(selected.getId());
 
-        Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
-        if (existing.isPresent()) {
-            budget.setId(existing.get().getId());
-            budgetDAO.update(budget);
-        } else {
-            budgetDAO.create(budget);
+        try {
+            Optional<Budget> existing = budgetDAO.findByDepartmentId(selected.getId());
+            if (existing.isPresent()) {
+                budget.setId(existing.get().getId());
+                budgetDAO.update(budget);
+            } else {
+                budgetDAO.create(budget);
+            }
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            showAlert("Couldn't save this budget. Check that the database is running, then try again.");
+            return;
         }
+        selected.setActiveBudget(budget);
 
         budgetTable.refresh();
 

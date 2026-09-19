@@ -96,7 +96,12 @@ public class EmployeeController {
             department.addEmployee(newEmployee);
         }
 
-        employeeDAO.create(newEmployee);
+        try {
+            employeeDAO.create(newEmployee);
+        } catch (RuntimeException e) {
+            showAlert("Couldn't save this employee. Check that the database is running, then try again.");
+            return;
+        }
         employees.add(newEmployee);
         AppState.refreshEmployees();
         nameField.clear();
@@ -143,7 +148,12 @@ public class EmployeeController {
             newDepartment.addEmployee(selected);
         }
 
-        employeeDAO.update(selected);
+        try {
+            employeeDAO.update(selected);
+        } catch (RuntimeException e) {
+            showAlert("Couldn't save these changes. Check that the database is running, then try again.");
+            return;
+        }
         employeeTable.refresh();
         AppState.refreshEmployees();
 
@@ -162,12 +172,17 @@ public class EmployeeController {
             return;
         }
 
-        if (selected.isActive()) {
-            employeeDAO.deactivate(selected.getId());
-            selected.setActive(false);
-        } else {
-            selected.setActive(true);
-            employeeDAO.update(selected);
+        try {
+            if (selected.isActive()) {
+                employeeDAO.deactivate(selected.getId());
+                selected.setActive(false);
+            } else {
+                selected.setActive(true);
+                employeeDAO.update(selected);
+            }
+        } catch (RuntimeException e) {
+            showAlert("Couldn't update this employee's status. Check that the database is running, then try again.");
+            return;
         }
 
         employeeTable.refresh();

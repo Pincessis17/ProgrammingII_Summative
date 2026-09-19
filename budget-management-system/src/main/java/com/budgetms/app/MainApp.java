@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.budgetms.dao.BudgetDAO;
+import com.budgetms.dao.BudgetDAOImpl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class MainApp extends Application {
         SchemaInitializer.initializeSchema();
 
         DepartmentDAO departmentDAO = new DepartmentDAOImpl();
+        BudgetDAO budgetDAO = new BudgetDAOImpl();
         EmployeeDAO employeeDAO = new EmployeeDAOImpl();
 
         List<Department> departments = departmentDAO.findAll();
@@ -43,6 +46,10 @@ public class MainApp extends Application {
             if (owner != null) {
                 owner.addEmployee(employee);
             }
+        }
+
+        for (Department department : departments) {
+            budgetDAO.findByDepartmentId(department.getId()).ifPresent(department::setActiveBudget);
         }
 
         AppState.departments.setAll(departments);

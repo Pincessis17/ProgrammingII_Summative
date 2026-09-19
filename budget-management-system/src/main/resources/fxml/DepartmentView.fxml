@@ -34,7 +34,7 @@
             <columns>
                 <TableColumn fx:id="nameColumn" text="Name" prefWidth="200"/>
                 <TableColumn fx:id="parentColumn" text="Parent" prefWidth="150"/>
-                <TableColumn fx:id="headcountColumn" text="Total Employees" prefWidth="120"/>
+                <TableColumn fx:id="headcountColumn" text="Total Active Employees" prefWidth="120"/>
                 <TableColumn fx:id="costColumn" text="Cost" prefWidth="120"/>
             </columns>
         </TableView>
