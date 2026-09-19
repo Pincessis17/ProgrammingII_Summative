@@ -30,6 +30,7 @@ public class BudgetController {
     @FXML private TableColumn<Department, Double> allocatedColumn;
     @FXML private TableColumn<Department, Double> actualColumn;
     @FXML private TableColumn<Department, Double> varianceColumn;
+    @FXML private TableColumn<Department, String> periodColumn;
 
     private final BudgetDAO budgetDAO = new BudgetDAOImpl();
 
@@ -89,6 +90,11 @@ public class BudgetController {
             }
         });
 
+        periodColumn.setCellValueFactory(cellData -> {
+            Budget budget = cellData.getValue().getActiveBudget();
+            return new SimpleStringProperty(budget == null ? "—" : budget.getPeriod());
+        });
+
         budgetTable.setItems(AppState.departments);
 
         departmentPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
@@ -109,6 +115,12 @@ public class BudgetController {
             } else {
                 amountField.clear();
                 periodField.clear();
+            }
+        });
+
+        budgetTable.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                departmentPicker.setValue(newVal);
             }
         });
     }

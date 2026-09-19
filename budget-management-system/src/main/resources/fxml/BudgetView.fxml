@@ -36,6 +36,7 @@
                 <TableColumn fx:id="allocatedColumn" text="Allocated" prefWidth="100"/>
                 <TableColumn fx:id="actualColumn" text="Actual Cost" prefWidth="100"/>
                 <TableColumn fx:id="varianceColumn" text="Variance" prefWidth="100"/>
+                <TableColumn fx:id="periodColumn" text="Period" prefWidth="90"/>
             </columns>
         </TableView>
     </center>

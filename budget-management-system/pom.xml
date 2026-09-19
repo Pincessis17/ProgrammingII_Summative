@@ -16,6 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.2</junit.version>
         <javafx.version>21.0.12</javafx.version>
+        <javafx.jmods.path>CHANGE_ME</javafx.jmods.path>
     </properties>
 
     <dependencies>
@@ -88,5 +89,50 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>package-native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>jpackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>jpackage</executable>
+                                    <arguments>
+                                        <argument>--type</argument>
+                                        <argument>app-image</argument>
+                                        <argument>--input</argument>
+                                        <argument>target</argument>
+                                        <argument>--dest</argument>
+                                        <argument>target/dist</argument>
+                                        <argument>--name</argument>
+                                        <argument>BudgetManagementSystem</argument>
+                                        <argument>--main-jar</argument>
+                                        <argument>budget-management-system-1.0-SNAPSHOT.jar</argument>
+                                        <argument>--main-class</argument>
+                                        <argument>com.budgetms.app.MainApp</argument>
+                                        <argument>--module-path</argument>
+                                        <argument>${javafx.jmods.path}</argument>
+                                        <argument>--add-modules</argument>
+                                        <argument>javafx.controls,javafx.fxml,java.sql,java.desktop,java.naming</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
