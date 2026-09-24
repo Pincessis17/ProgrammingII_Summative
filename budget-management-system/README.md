@@ -80,6 +80,13 @@ each entity.
 This produces a native application image with its own bundled Java
 runtime, so it runs on a machine that has no JDK installed.
 
+**Pre-built (Windows):** the packaged application is too large to keep in
+this repository, so a ready-to-run build is attached to the
+[v1.0 release](https://github.com/Pincessis17/ProgrammingII_Summative/releases/tag/v1.0):
+[BudgetManagementSystem-v1.0.zip](https://github.com/Pincessis17/ProgrammingII_Summative/releases/download/v1.0/BudgetManagementSystem-v1.0.zip).
+Unzip it and run `BudgetManagementSystem.exe` from inside the extracted
+folder (see the notes under "Running it" below).
+
 **One-time setup:** download the JavaFX 21.0.12 **jmods** (not the SDK)
 for your OS from
 [gluonhq.com/products/javafx](https://gluonhq.com/products/javafx/) and
