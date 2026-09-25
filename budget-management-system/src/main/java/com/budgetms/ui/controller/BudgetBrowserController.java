@@ -69,6 +69,9 @@ public class BudgetBrowserController {
 
     private TreeItem<OrgUnit> buildNode(Department department) {
         TreeItem<OrgUnit> node = new TreeItem<>(department);
+        // Start collapsed so the panel sees one level at a time when clicked
+        // through during the demo, instead of the whole tree at once.
+        node.setExpanded(false);
 
         for (Department child : department.getChildren()) {
             node.getChildren().add(buildNode(child));
