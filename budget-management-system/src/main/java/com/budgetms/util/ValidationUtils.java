@@ -2,8 +2,6 @@ package com.budgetms.util;
 
 /**
  * Small, UI-independent validation helpers used by the JavaFX controllers.
- * Kept separate from the controllers (which need a running JavaFX toolkit)
- * so this logic can be unit tested directly with JUnit 5.
  */
 public final class ValidationUtils {
 
