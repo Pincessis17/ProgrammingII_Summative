@@ -190,6 +190,9 @@ public class DepartmentController {
             return;
         }
 
+        if (selected.getParent() != null) {
+            selected.getParent().removeChild(selected);
+        }
         departments.remove(selected);
     }
 
