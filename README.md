@@ -87,6 +87,15 @@ this repository, so a ready-to-run build is attached to the
 Unzip it and run `BudgetManagementSystem.exe` from inside the extracted
 folder (see the notes under "Running it" below).
 
+Before first launch, set up the database connection: inside the
+extracted folder, go to `BudgetManagementSystem\app\classes`, copy
+`db.properties.example` to a new file named `db.properties` in that
+same folder, and fill in your own MySQL username and password (this
+mirrors how `db.properties` is kept out of the repository itself — see
+step 2 below). The app creates its own schema on first run, so an
+empty `budget_management` database with matching credentials is all
+you need.
+
 **One-time setup:** download the JavaFX 21.0.12 **jmods** (not the SDK)
 for your OS from
 [gluonhq.com/products/javafx](https://gluonhq.com/products/javafx/) and
