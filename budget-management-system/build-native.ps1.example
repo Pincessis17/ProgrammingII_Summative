@@ -1,0 +1,4 @@
+# Copy this file to build-native.ps1 and set $jmods to YOUR OWN javafx-jmods folder path.
+# build-native.ps1 is gitignored so everyone keeps their own local copy.
+$jmods = "/full/path/to/javafx-jmods-21.0.12"
+mvn package -Ppackage-native "-Djavafx.jmods.path=$jmods"

@@ -146,3 +146,6 @@ vite.config.ts.timestamp-*
 *.iml
 target/
 db.properties
+
+# per-teammate local build script (copy from build-native.ps1.example)
+budget-management-system/build-native.ps1
